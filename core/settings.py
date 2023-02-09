@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     "daphne",
 
     'django.contrib.staticfiles',
+
+    # Custom App
+    "chat",
+
 ]
 
 MIDDLEWARE = [
