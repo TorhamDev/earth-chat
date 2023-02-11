@@ -4,11 +4,20 @@ import json
 class GlobalChatConsumer(AsyncJsonWebsocketConsumer):
 
     async def connect(self):
-        self.channel_layer.group_add(
+        await self.channel_layer.group_add(
             "global_chat",
             self.channel_name,
         )
 
+        # Send message to all
+        await self.channel_layer.group_send(
+            "global_chat",
+            {
+                "type": "chat.message",
+                "message": "New User Connected!"
+            },
+
+        )
         await self.accept()
 
 
@@ -31,6 +40,5 @@ class GlobalChatConsumer(AsyncJsonWebsocketConsumer):
 
     async def chat_message(self, event):
         message = event["message"]
-
         # Send message to WebSocket
         await self.send(text_data=json.dumps({"message": message}))
