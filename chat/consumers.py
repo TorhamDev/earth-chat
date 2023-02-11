@@ -1,6 +1,7 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 import json
 
+
 class GlobalChatConsumer(AsyncJsonWebsocketConsumer):
 
     async def connect(self):
@@ -19,8 +20,6 @@ class GlobalChatConsumer(AsyncJsonWebsocketConsumer):
 
         )
         await self.accept()
-
-
 
     async def receive_json(self, content, **kwargs):
         message = content["message"]
