@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     # Custom App
     "chat",
+    "rest_framework",
 
 ]
 
