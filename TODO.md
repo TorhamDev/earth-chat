@@ -5,3 +5,4 @@ This is a list of things I need to do in this project :smiling_face_with_tear:
 - [X] Create Basic Real-time requests and broadcast message
 - [X] Start developing earth chat :star_struck:
 - [X] Create JWT Authentication
+- [X] Create Register User API
