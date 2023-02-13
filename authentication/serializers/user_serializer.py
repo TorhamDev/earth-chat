@@ -9,3 +9,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'email', 'password']
+    
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        del representation["password"]
+
+        return representation
