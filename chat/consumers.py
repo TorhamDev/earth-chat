@@ -1,10 +1,29 @@
-from channels.generic.websocket import AsyncJsonWebsocketConsumer
+from channels.generic.websocket import AsyncJsonWebsocketConsumer 
+from authentication.utils.user_authorization import authorization_with_jwt
+from urllib.parse import parse_qs
+from asgiref.sync import async_to_sync
 import json
 
 
 class GlobalChatConsumer(AsyncJsonWebsocketConsumer):
 
     async def connect(self):
+
+        token_qs = parse_qs(self.scope["query_string"]).get(b"token", None)
+
+        if token_qs is None:
+            await self.close(400)
+
+        jwt_auth_reult = await async_to_sync(authorization_with_jwt)(token_qs[0].decode())
+        
+        print(jwt_auth_reult)
+
+
+
+        
+  
+
+
         await self.channel_layer.group_add(
             "global_chat",
             self.channel_name,
