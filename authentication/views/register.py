@@ -2,28 +2,17 @@ from rest_framework.views import APIView
 from authentication.serializers import UserSerializer
 from django.contrib.auth.models import User
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError
-from rest_framework import status
+from authentication.utils.user_authorization import check_user_register_data
 
 
 class RegisterView(APIView):
 
     def post(self, request):
 
-        if "confirm_password" not in request.data:
-            raise ValidationError(
-                "You forgot confirm_password field.",
-                status.HTTP_400_BAD_REQUEST,
-            )
+        check_user_register_data(request)
 
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-
-        if request.data["confirm_password"] != request.data["password"]:
-            raise ValidationError(
-                "Confirm password doesn't match.",
-                status.HTTP_400_BAD_REQUEST,
-            )
 
         # Create user manualy
         validation_data = serializer.validated_data
