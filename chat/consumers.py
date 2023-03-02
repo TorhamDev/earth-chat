@@ -1,8 +1,9 @@
-from channels.generic.websocket import AsyncJsonWebsocketConsumer 
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from authentication.utils.user_authorization import authorization_with_jwt
 from urllib.parse import parse_qs
-from asgiref.sync import async_to_sync
+from asgiref.sync import sync_to_async
 import json
+from rest_framework.exceptions import AuthenticationFailed
 
 
 class GlobalChatConsumer(AsyncJsonWebsocketConsumer):
@@ -14,15 +15,10 @@ class GlobalChatConsumer(AsyncJsonWebsocketConsumer):
         if token_qs is None:
             await self.close(400)
 
-        jwt_auth_reult = await async_to_sync(authorization_with_jwt)(token_qs[0].decode())
-        
-        print(jwt_auth_reult)
+        jwt_auth_reult = await sync_to_async(authorization_with_jwt)(token_qs[0].decode())
 
-
-
-        
-  
-
+        if jwt_auth_reult == False:
+            await self.close(400)
 
         await self.channel_layer.group_add(
             "global_chat",

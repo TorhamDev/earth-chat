@@ -14,8 +14,7 @@ def authorization_with_jwt(jwt_token: str):
             key=settings.SECRET_KEY,
             algorithms="HS256",
         )
-    except (ExpiredSignatureError, DecodeError) as e:
-        print(e)
+    except (ExpiredSignatureError, DecodeError):
         return False
 
     user = User.objects.get(id=result["user_id"])
