@@ -27,3 +27,5 @@ pip install -r requirements.txt
 # run the projct
 python3 manage.py runserver
 ```
+# License
+[![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)
